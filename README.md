@@ -39,7 +39,7 @@ Here's a walkthrough of implemented user stories:
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Only half the image was being displayed, but this was resolved by setting the TableView height equal to the MovieCell height.
 
 ## License
 

@@ -24,15 +24,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         tableview.insertSubview(refreshControl, at: 0)
         
         tableview.dataSource=self
+        tableview.delegate=self
         fetchMovies()
-        
     }
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
         fetchMovies()
     }
     
-    func fetchMovies() {
+    func fetchMovies() { // network connection code
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")! // connect to specific link
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10) // even if info is in cache, connect to api to get movies
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main) // put info in main thread
@@ -72,6 +72,12 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
+    // Get rid of gray area after clicking cell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+    }
+    
+    // code for when user clicks cell to get more details
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! UITableViewCell
         if let indexPath = tableview.indexPath(for: cell) {

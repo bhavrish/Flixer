@@ -56,7 +56,7 @@
                                             <outlet property="descriptionLabel" destination="ceH-RC-3kt" id="W7u-g1-mYa"/>
                                             <outlet property="posterImageView" destination="waY-sq-4yC" id="Oju-ss-YpM"/>
                                             <outlet property="titleLabel" destination="dfH-KZ-jMo" id="JY9-gP-coe"/>
-                                            <segue destination="pR0-Vw-mo6" kind="show" trigger="accessoryAction" id="cKx-91-iRL"/>
+                                            <segue destination="pR0-Vw-mo6" kind="show" id="fCW-PK-uwA"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -94,25 +94,25 @@
                                 <rect key="frame" x="166" y="358" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Release Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f63-PG-k1w">
                                 <rect key="frame" x="166" y="397" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ruU-Aj-sPv">
                                 <rect key="frame" x="24" y="439" width="335" height="158"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="SEl-8j-eDF"/>
                     </view>
                     <connections>
@@ -152,6 +152,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ir4-r5-Bo1" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Gak-ST-rIG">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -198,6 +199,7 @@
                                         </view>
                                         <connections>
                                             <outlet property="posterImageView" destination="m5P-eL-kwM" id="5cX-MR-4kh"/>
+                                            <segue destination="pR0-Vw-mo6" kind="show" id="XQY-CA-BkL"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -235,4 +237,7 @@
             <point key="canvasLocation" x="132" y="750.67466266866575"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fCW-PK-uwA"/>
+    </inferredMetricsTieBreakers>
 </document>

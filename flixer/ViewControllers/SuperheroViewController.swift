@@ -8,16 +8,23 @@
 
 import UIKit
 
-class SuperheroViewController: UIViewController, UICollectionViewDataSource {
+class SuperheroViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
     var movies: [[String: Any]] = []
+    var refreshControl: UIRefreshControl!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.dataSource = self
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(SuperheroViewController.didPullToRefresh(_:)), for: .valueChanged)
+        collectionView.insertSubview(refreshControl, at: 0)
+        
+        collectionView.delegate=self
+        collectionView.dataSource=self
         
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.minimumInteritemSpacing = 0
@@ -28,6 +35,29 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
         layout.itemSize = CGSize(width: width, height: width * 3 / 2)
         
         fetchMovies()
+    }
+    
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+        fetchMovies()
+    }
+    
+    func fetchMovies() {
+        let url = URL(string: "https://api.themoviedb.org/3/movie/284053/similar?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed&language=en-US&page=1)")! // connect to link with movies similar to specificied id
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10) // even if info is in cache, connect to api to get movies
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main) // put info in main thread
+        let task = session.dataTask(with: request) { (data, response, error) in
+            // This will run when the network request returns
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data {
+                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] // puts data from json file into a dictionary
+                let movies = dataDictionary["results"] as! [[String: Any]]
+                self.movies=movies
+                self.collectionView.reloadData() // table is created before network request is processed, so this function continues to refresh data before finalizing table
+                self.refreshControl.endRefreshing()
+            }
+        }
+        task.resume()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -45,23 +75,13 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
         return cell
     }
     
-    func fetchMovies() {
-        let url = URL(string: "https://api.themoviedb.org/3/movie/284053/similar?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed&language=en-US&page=1)")! // connect to link with movies similar to specificied id
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10) // even if info is in cache, connect to api to get movies
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main) // put info in main thread
-        let task = session.dataTask(with: request) { (data, response, error) in
-            // This will run when the network request returns
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let data = data {
-                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] // puts data from json file into a dictionary
-                let movies = dataDictionary["results"] as! [[String: Any]]
-                self.movies=movies
-                self.collectionView.reloadData() // table is created before network request is processed, so this function continues to refresh data before finalizing table
-                // self.refreshControl.endRefreshing()
-            }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UICollectionViewCell
+        if let indexPath = collectionView.indexPath(for: cell) {
+            let movie = movies[indexPath.item]
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.movie = movie
         }
-        task.resume()
     }
     
     override func didReceiveMemoryWarning() {
